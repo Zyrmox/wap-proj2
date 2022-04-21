@@ -19,8 +19,8 @@ export default {
   ** Customize the progress-bar color
   */
   loading: {
-    color: 'blue',
-    height: '5px'
+    color: 'green',
+    height: '3px'
   },
   /*
   ** Global CSS
@@ -32,15 +32,24 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/helpers.js'
   ],
   /*
   ** Nuxt.js dev-modules
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module',
+    ['@nuxtjs/eslint-module', {
+      fix: true
+    }],
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    // ['@nuxtjs/fontawesome', {
+    //   suffix: true,
+    //   icons: {
+    //     solid: true
+    //   }
+    // }]
   ],
   /*
   ** Nuxt.js modules
