@@ -18,11 +18,15 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {
+    color: 'blue',
+    height: '5px'
+  },
   /*
   ** Global CSS
   */
   css: [
+    '@/assets/css/app.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -46,7 +50,12 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/google-fonts',
+    ['nuxt-supabase', {
+      supabaseUrl: 'https://aomrbpbirewwgkhdbvvm.supabase.co',
+      supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvbXJicGJpcmV3d2draGRidnZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTA0NTgwMzAsImV4cCI6MTk2NjAzNDAzMH0.oxBVcGzYHknRmO7O53p5mfCh0A4Lf4Y5hViELuNQcOo'
+    }]
   ],
   /*
   ** Axios module configuration
@@ -62,6 +71,12 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
+    }
+  },
+  components: true,
+  googleFonts: {
+    families: {
+      Poppins: true
     }
   }
 }

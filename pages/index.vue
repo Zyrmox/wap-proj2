@@ -1,40 +1,14 @@
 <template>
-  <div class="container mx-auto">
-    <div>
-      <logo />
-      <h1 class="title">
-        wap-proj
-      </h1>
-      <h2 class="subtitle">
-        Online file storage.
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
+  <div class="grid grid-cols-1 items-center justify-center">
+    <box>
+      <h1 class="text-xl font-semibold pb-6">Nahrejte soubor</h1>
+      <file-upload-area />
+    </box>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
 }
 </script>
 
