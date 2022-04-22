@@ -2,7 +2,9 @@ export const state = () => ({
   file: null,
   record: null,
   uploading: false,
-  stored: false
+  stored: false,
+  name: null,
+  email: null
 })
 
 export const mutations = {
@@ -21,6 +23,12 @@ export const mutations = {
   },
   saveRecordFromTable (state, record) {
     state.record = record
+  },
+  updateName (state, val) {
+    state.name = val
+  },
+  updateEmail (state, val) {
+    state.email = val
   },
   remove (state) {
     state.file = null

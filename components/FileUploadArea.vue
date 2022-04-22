@@ -43,9 +43,23 @@
             {{ file.name }}
           </div>
 
+          <div class="mt-6 inline-flex w-full max-w-2xl">
+            <span class="inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              Jméno:
+            </span>
+            <input v-model="nameInput" type="text" class="inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700">
+          </div>
+
+          <div class="mt-4 inline-flex w-full max-w-2xl">
+            <span class="inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+              E-mail:
+            </span>
+            <input v-model="emailInput" type="email" class="inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700">
+          </div>
+
           <button class="text-white bg-green-500 px-4 py-2 font-semibold rounded-lg mt-6" @click="storeFile">
             <span v-if="!uploading">Nahrát soubor</span>
-            <span v-else>Nahrávání....</span>
+            <span v-else>Nahrávání ....</span>
           </button>
 
           <div class="flex items-center w-1/4 my-3">
@@ -145,6 +159,22 @@ export default {
     },
     administrativeLink () {
       return process.env.baseUrl + '/file/' + this.record.hash_administrative
+    },
+    nameInput: {
+      get () {
+        return this.$store.state.upload.name
+      },
+      set (value) {
+        this.$store.commit('upload/updateName', value)
+      }
+    },
+    emailInput: {
+      get () {
+        return this.$store.state.upload.email
+      },
+      set (value) {
+        this.$store.commit('upload/updateEmail', value)
+      }
     }
   },
   created () {
@@ -164,6 +194,9 @@ export default {
       }
       const files = e.target.files
       this.loadFile(files)
+    },
+    validateForm () {
+
     },
     async storeFile () {
       if (this.stored) {
@@ -199,6 +232,8 @@ export default {
         {
           id: this.genUUID(),
           file_name: this.file.name,
+          author_name: this.nameInput,
+          author_email: this.emailInput,
           file_hash: fileHash,
           hash_preview: previeHash,
           hash_administrative: administrativeHash,
