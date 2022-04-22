@@ -43,21 +43,39 @@
             {{ file.name }}
           </div>
 
-          <div class="mt-6 inline-flex w-full max-w-2xl">
-            <span class="inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-              Jméno:
-            </span>
-            <input v-model="nameInput" type="text" class="inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700">
+          <div class="w-full max-w-xl">
+            <div class="mt-6 inline-flex w-full">
+              <label :class="[inputHasError('name') ? 'border-red-500' : 'border-gray-700', 'input-required inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0']">
+                Jméno
+              </label>
+              <input v-model="nameInput" type="text" :class="[inputHasError('name') ? 'border-red-500' : 'border-gray-700', 'inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm']" placeholder="Jméno a příjmení">
+            </div>
+            <div class="mt-1 flex justify-end">
+              <p v-if="invalid = inputHasError('name')" class="text-red-500 text-sm">
+                {{ invalid.error }}
+              </p>
+            </div>
+
+            <div class="mt-4 inline-flex w-full">
+              <label :class="[inputHasError('email') ? 'border-red-500' : 'border-gray-700', 'input-required inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700']">
+                E-mail
+              </label>
+              <input v-model="emailInput" type="email" :class="[inputHasError('email') ? 'border-red-500' : 'border-gray-700', 'inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700']" placeholder="Vaše e-mailová adresa">
+            </div>
+            <div class="mt-1 flex justify-end">
+              <p v-if="invalid = inputHasError('email')" class="text-red-500 text-sm">
+                {{ invalid.error }}
+              </p>
+            </div>
+
+            <div class="w-full inline-flex justify-end">
+              <p class="text-sm text-gray-600 mt-2">
+                <span class="text-red-500">*</span> - označuje povinné pole
+              </p>
+            </div>
           </div>
 
-          <div class="mt-4 inline-flex w-full max-w-2xl">
-            <span class="inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-              E-mail:
-            </span>
-            <input v-model="emailInput" type="email" class="inline-flex items-center rounded-r-lg pl-4 bg-gray-200 border-2 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700">
-          </div>
-
-          <button class="text-white bg-green-500 px-4 py-2 font-semibold rounded-lg mt-6" @click="storeFile">
+          <button class="text-white bg-green-500 px-4 py-2 font-semibold rounded-lg mt-4" @click="storeFile">
             <span v-if="!uploading">Nahrát soubor</span>
             <span v-else>Nahrávání ....</span>
           </button>
@@ -144,6 +162,11 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
+  data () {
+    return {
+      validationErrors: []
+    }
+  },
   computed: {
     ...mapState('upload', [
       'file',
@@ -195,11 +218,38 @@ export default {
       const files = e.target.files
       this.loadFile(files)
     },
-    validateForm () {
-
+    inputHasError (inputName) {
+      return this.validationErrors.find(err => err.name === inputName)
+    },
+    formInputCorrect () {
+      let failed = false
+      this.validationErrors = []
+      if (!this.nameInput) {
+        // this.showBubbleMessage('error', true, 'Pole "Jméno" je prázdné.')
+        this.validationErrors.push({
+          name: 'name',
+          error: 'Pole musí být vyplněné'
+        })
+        failed = true
+      }
+      if (!this.emailInput) {
+        // this.showBubbleMessage('error', true, 'Pole "E-mail" je prázdné.')
+        this.validationErrors.push({
+          name: 'email',
+          error: 'Pole musí být vyplněné'
+        })
+        failed = true
+      } else if (this.emailInput && !this.validateEmail(this.emailInput)) {
+        this.validationErrors.push({
+          name: 'email',
+          error: 'Chybný formát e-mailové adresy'
+        })
+        failed = true
+      }
+      return !failed
     },
     async storeFile () {
-      if (this.stored) {
+      if (this.stored || !this.formInputCorrect()) {
         return
       }
 

@@ -38,6 +38,8 @@ export const mutations = {
     state.record = null
     state.uploading = false
     state.stored = false
+    state.name = null
+    state.email = null
     this.commit('messages/clear')
   }
 }
