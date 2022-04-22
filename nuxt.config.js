@@ -32,7 +32,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/helpers.js'
+    '~/plugins/helpers.js',
+    '~/plugins/uuid.js'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -87,5 +88,8 @@ export default {
     families: {
       Poppins: true
     }
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   }
 }
