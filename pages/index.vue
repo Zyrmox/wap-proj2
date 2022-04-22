@@ -12,7 +12,7 @@
         :type="mes.type"
         :closeable="mes.closeable"
         :msg="mes.msg"
-        class="mt-4"
+        class="mt-4 w-full"
       />
     </box>
   </div>

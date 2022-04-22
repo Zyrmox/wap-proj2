@@ -17,6 +17,7 @@ export const mutations = {
   doneUploading (state) {
     state.uploading = false
     state.stored = true
+    this.commit('messages/clear')
   },
   saveRecordFromTable (state, record) {
     state.record = record
