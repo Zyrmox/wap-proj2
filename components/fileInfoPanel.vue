@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-full">
     <label class="text-green-500 font-semibold text-2xl">File name</label>
     <input
       v-model="file.fileName"
