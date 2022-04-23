@@ -1,6 +1,8 @@
 <template>
   <div class="h-full relative">
     <navbar />
-    <nuxt />
+    <div>
+      <nuxt />
+    </div>
   </div>
 </template>
