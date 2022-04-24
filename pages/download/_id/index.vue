@@ -50,6 +50,9 @@ export default {
         fileUUID: '',
         fileName: '',
         fileFormat: '',
+        fileAuthor: '',
+        fileAuthorEmail: '',
+        downloadCount: 0,
         createdAt: '',
         modifiedAt: '',
         expiresAt: '',
@@ -81,6 +84,9 @@ export default {
         this.fileInfo.fileName = nameAndFormat.name
         this.fileInfo.fileFormat = nameAndFormat.format
 
+        this.fileInfo.fileAuthor = data.author_name
+        this.fileInfo.fileAuthorEmail = data.author_email
+        this.fileInfo.downloadCount = Number(data.downloads_count)
         this.fileInfo.createdAt = data.created_at
         this.fileInfo.modifiedAt = data.updated_at
         this.fileInfo.expiresAt = data.expiry_at
@@ -111,6 +117,18 @@ export default {
         link.download = this.fileInfo.fileName + this.fileFormat
         link.click()
         URL.revokeObjectURL(link.href)
+        this.updateDownloadsCount()
+      } catch (error) {
+        window.console.error(error)
+      }
+    },
+    async updateDownloadsCount () {
+      try {
+        const { error } = await this.$supabase.from('file_links')
+          .update({ downloads_count: this.fileInfo.downloadCount + 1 })
+          .match({ id: this.fileInfo.fileUUID })
+        if (error) { throw error }
+        this.fileInfo.downloadCount += 1
       } catch (error) {
         window.console.error(error)
       }

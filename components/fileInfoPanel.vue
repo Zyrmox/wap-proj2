@@ -24,6 +24,9 @@
       <div class="flex flex-row">
         <div class="flex-col flex-auto">
           <div class="text-gray-400">
+            autor: {{ file.fileAuthor }}
+          </div>
+          <div class="text-gray-400">
             vytvořeno: {{ formateDate(file.createdAt) }}
           </div>
           <div class="text-gray-400">
@@ -35,7 +38,13 @@
         </div>
         <div class="flex-col flex-auto">
           <div class="text-gray-400">
+            email autora: {{ file.fileAuthorEmail }}
+          </div>
+          <div class="text-gray-400">
             formát: {{ file.fileFormat }}
+          </div>
+          <div class="text-gray-400">
+            počet stažení: {{ file.downloadCount }} x
           </div>
         </div>
       </div>
