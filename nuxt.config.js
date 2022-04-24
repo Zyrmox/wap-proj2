@@ -66,6 +66,7 @@ export default {
       supabaseUrl: 'https://aomrbpbirewwgkhdbvvm.supabase.co',
       supabaseKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvbXJicGJpcmV3d2draGRidnZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTA0NTgwMzAsImV4cCI6MTk2NjAzNDAzMH0.oxBVcGzYHknRmO7O53p5mfCh0A4Lf4Y5hViELuNQcOo'
     }],
+    '@nuxtjs/date-fns',
     ['~/modules/deleteFilesCron.js']
   ],
   /*

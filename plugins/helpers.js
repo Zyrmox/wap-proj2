@@ -15,9 +15,7 @@ Vue.mixin({
       return false
     },
     addDaysToDate (date, days) {
-      const newDate = new Date(Number(date))
-      newDate.setDate(date.getDate() + days)
-      return newDate
+      return this.$dateFns.addDays(date, days)
     }
   }
 })
