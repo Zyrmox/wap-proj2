@@ -1,7 +1,7 @@
 <template>
   <box>
     <div v-if="fileInfo === null" class="flex flex-col items-center space-y-2 w-full">
-      File deleted
+      Soubor úspěšně odstraněn
     </div>
     <div v-else-if="fileInfo.fileUUID === ''" class="flex flex-col items-center space-y-2 w-full">
       <svg
@@ -23,41 +23,40 @@
       </div>
       <input-link-and-copy :label="'Public link'" :url="previewLink" />
 
-      <input-link-and-copy v-if="editPremission" :label="'Private link'" :url="administrativeLink" />
+      <input-link-and-copy :label="'Private link'" :url="administrativeLink" />
 
       <div class="flex space-x-5">
+        <button
+          v-if="isEditing"
+          class="inline-block px-6 py-2.5 bg-green-500 text-white rounded hover:bg-yellow-900"
+          type="button"
+          @click="extendBtnClicked"
+        >
+          Prodloužit o 7 dní
+        </button>
         <button
           class="inline-block px-6 py-2.5 bg-yellow-600 text-white rounded hover:bg-yellow-900"
           type="button"
           @click="editBtnClicked"
         >
-          edit
+          Upravit
         </button>
         <button
           class="inline-block px-6 py-2.5 bg-gray-600 text-white rounded hover:bg-gray-900"
           type="button"
           @click="startFileDownload"
         >
-          download
+          Stáhnout
         </button>
         <button
           class="inline-block px-6 py-2.5 bg-red-600 text-white rounded hover:bg-red-900"
           type="button"
           @click="deleteConform"
         >
-          delete
+          Smazat
         </button>
       </div>
     </div>
-    <message-bubble
-      v-for="mes in messages"
-      :id="mes.id"
-      :key="mes.id"
-      :type="mes.type"
-      :closeable="mes.closeable"
-      :msg="mes.msg"
-      class="mt-4 w-full"
-    />
   </box>
 </template>
 
@@ -87,9 +86,6 @@ export default {
     },
     administrativeLink () {
       return process.env.baseUrl + '/file/' + this.fileInfo.hashAdministrative
-    },
-    messages () {
-      return this.$store.state.messages.list
     }
   },
   created () {
@@ -102,6 +98,15 @@ export default {
       }
       this.isEditing = !this.isEditing
     },
+    extendBtnClicked () {
+      if (this.isEditing) { // end editing
+        const oldDate = Date
+        const newDate = new Date()
+        newDate.setDate(today.getDate() + 1)
+        this.fileInfo.expiresAt = newDate
+        console.log(this.fileInfo.expiresAt)
+      }
+    },
 
     async deleteConform () {
       if (window.confirm('Do you really want to delete this file?')) {
@@ -112,7 +117,7 @@ export default {
           if (error) { throw error }
           this.fileInfo = null
         } catch (error) {
-          console.error(error)
+          window.console.error(error)
         }
       }
     },
@@ -131,6 +136,7 @@ export default {
 
         this.fileInfo.createdAt = data.created_at
         this.fileInfo.modifiedAt = data.updated_at
+        this.fileInfo.expiresAt = data.expiry_at
         this.fileInfo.hashFile = data.file_hash
         this.fileInfo.hashAdministrative = data.hash_administrative
         this.fileInfo.hashPreview = data.hash_preview
@@ -146,7 +152,17 @@ export default {
           .match({ id: this.fileInfo.fileUUID })
         if (error) { throw error }
       } catch (error) {
-        console.error(error)
+        window.console.error(error)
+      }
+    },
+    async updateExpiration () {
+      try {
+        const { error } = await this.$supabase.from('file_links')
+          .update({ expiry_at: this.fileInfo.expiresAt })
+          .match({ id: this.fileInfo.fileUUID })
+        if (error) { throw error }
+      } catch (error) {
+        window.console.error(error)
       }
     },
 
@@ -161,7 +177,7 @@ export default {
         link.click()
         URL.revokeObjectURL(link.href)
       } catch (error) {
-        console.error(error)
+        window.console.error(error)
       }
     },
 
