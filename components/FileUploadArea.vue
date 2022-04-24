@@ -68,6 +68,28 @@
               </p>
             </div>
 
+            <div class="mt-4 inline-flex w-full">
+              <label :class="[inputHasError('expiry') ? 'border-red-500' : 'border-gray-700', 'input-required inline-flex sm:w-1/4 items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700']">
+                Smazat po
+              </label>
+              <input
+                v-model="expiryInput"
+                type="number"
+                min="1"
+                max="7"
+                :class="[inputHasError('expiry') ? 'border-red-500' : 'border-gray-700', 'inline-flex items-center rounded-none pl-4 bg-gray-200 border-2 border-r-0 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700']"
+                placeholder="Délka platnosti odkazu"
+              >
+              <label :class="[inputHasError('expiry') ? 'border-red-500' : 'border-gray-700', 'inline-flex items-center px-3 py-2 text-white bg-gray-700 rounded-r-lg border-2 border-l-0 border-gray-700']">
+                dnech
+              </label>
+            </div>
+            <div class="mt-1 flex justify-end">
+              <p v-if="invalid = inputHasError('expiry')" class="text-red-500 text-sm">
+                {{ invalid.error }}
+              </p>
+            </div>
+
             <div class="w-full inline-flex justify-end">
               <p class="text-sm text-gray-600 mt-2">
                 <span class="text-red-500">*</span> - označuje povinné pole
@@ -198,6 +220,14 @@ export default {
       set (value) {
         this.$store.commit('upload/updateEmail', value)
       }
+    },
+    expiryInput: {
+      get () {
+        return this.$store.state.upload.expiry
+      },
+      set (value) {
+        this.$store.commit('upload/updateExpiry', value)
+      }
     }
   },
   created () {
@@ -246,6 +276,20 @@ export default {
         })
         failed = true
       }
+      if (!this.expiryInput) {
+        // this.showBubbleMessage('error', true, 'Pole "Smazat po" je prázdné.')
+        this.validationErrors.push({
+          name: 'expiry',
+          error: 'Pole musí být vyplněné'
+        })
+        failed = true
+      } else if (this.expiryInput && (this.expiryInput < 1 || this.expiryInput > 7)) {
+        this.validationErrors.push({
+          name: 'expiry',
+          error: 'Povolená doba uložení souboru je v rozmezí od 1 do 7 dnů'
+        })
+        failed = true
+      }
       return !failed
     },
     async storeFile () {
@@ -277,6 +321,10 @@ export default {
     async storeToTable (fileHash) {
       const previeHash = this.genHash(this.file.name + this.genUUID())
       const administrativeHash = this.genHash(this.file.name + this.genUUID())
+      // const now = ((new Date()).toISOString()).toLocaleString('cs-CZ')
+      let expiryDate = new Date()
+      expiryDate = this.addDaysToDate(expiryDate, parseInt(this.expiryInput))
+
       /* Insert into file_links table a record about the bucket storage upload */
       const { data, error } = await this.$supabase.from('file_links').insert([
         {
@@ -287,7 +335,7 @@ export default {
           file_hash: fileHash,
           hash_preview: previeHash,
           hash_administrative: administrativeHash,
-          created_at: new Date().toISOString()
+          expiry_at: expiryDate
         }
       ])
 

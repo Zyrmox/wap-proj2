@@ -4,7 +4,8 @@ export const state = () => ({
   uploading: false,
   stored: false,
   name: null,
-  email: null
+  email: null,
+  expiry: 1
 })
 
 export const mutations = {
@@ -30,6 +31,9 @@ export const mutations = {
   updateEmail (state, val) {
     state.email = val
   },
+  updateExpiry (state, val) {
+    state.expiry = val
+  },
   remove (state) {
     state.file = null
   },
@@ -40,6 +44,7 @@ export const mutations = {
     state.stored = false
     state.name = null
     state.email = null
+    state.expiry = 1
     this.commit('messages/clear')
   }
 }

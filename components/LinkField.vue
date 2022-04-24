@@ -17,7 +17,15 @@
 
 <script>
 export default {
-
+  props: {
+    prepend: {
+      required: false,
+      type: String
+    },
+    append: {
+      required: false
+    }
+  }
 }
 </script>
 
