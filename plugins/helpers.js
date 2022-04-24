@@ -13,6 +13,11 @@ Vue.mixin({
         return true
       }
       return false
+    },
+    addDaysToDate (date, days) {
+      const newDate = new Date(Number(date))
+      newDate.setDate(date.getDate() + days)
+      return newDate
     }
   }
 })
