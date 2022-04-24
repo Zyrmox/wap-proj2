@@ -6,7 +6,7 @@
         ref="clone"
         :value="url"
         type="text"
-        class="form-control inline-flex items-center rounded-l-lg pl-4 bg-gray-200 border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700"
+        class="form-control inline-flex items-center rounded-l-lg pl-4 bg-white border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700"
         readonly
         @focus="$event.target.select()"
       >

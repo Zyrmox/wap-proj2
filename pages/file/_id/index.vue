@@ -18,12 +18,15 @@
     <div v-else class="flex flex-col items-center w-full">
       <file-info-panel :file="fileInfo" :disabled="!isEditing" />
 
-      <div class="flex items-center w-1/4 my-3">
-        <div class="flex-grow h-1 bg-gray-400" />
+      <div class="flex items-center w-full my-3 mt-">
+        <div class="flex-grow h-px bg-green-500 rounded" />
       </div>
-      <input-link-and-copy :label="'Public link'" :url="previewLink" />
 
-      <input-link-and-copy :label="'Private link'" :url="administrativeLink" />
+      <div class="bg-gray-200 mt-2 px-4 py-4 sm:px-8 sm:py-6 rounded-lg w-full">
+        <input-link-and-copy :label="'Public link'" :url="previewLink" class="mt-2" />
+
+        <input-link-and-copy :label="'Private link'" :url="administrativeLink" class="mt-2" />
+      </div>
       <div class="flex justify-between items-center w-full mt-4">
         <button
           class="inline-flex items-center text-white bg-green-500 hover:bg-green-400 transition-colors duration-150 px-8 py-4 font-semibold rounded-lg"
@@ -40,7 +43,7 @@
           >
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          Stáhnout
+          Stáhnout soubor
         </button>
         <div class="inline-flex items-center space-x-2">
           <button
@@ -129,6 +132,9 @@ export default {
     },
     administrativeLink () {
       return process.env.baseUrl + '/file/' + this.fileInfo.hashAdministrative
+    },
+    fileFormat () {
+      return (this.fileInfo.fileFormat === '' ? '' : '.' + this.fileInfo.fileFormat)
     }
   },
   created () {
@@ -215,7 +221,7 @@ export default {
 
         const link = document.createElement('a')
         link.href = URL.createObjectURL(data)
-        link.download = this.fileInfo.fileName
+        link.download = this.fileInfo.fileName + this.fileFormat
         link.click()
         URL.revokeObjectURL(link.href)
       } catch (error) {
