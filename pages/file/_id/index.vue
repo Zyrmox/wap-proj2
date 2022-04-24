@@ -119,10 +119,11 @@ export default {
 
     // TODO: pro sekci downloads tady budu jen testovat jestli je to hash_preview
     async getFileInfo () {
-      const { data, error } = await this.$supabase.from('file_links')
-        .select('*')
-        .eq('hash_administrative', this.fileCode).single()
-      if (!error) {
+      try {
+        const { data, error } = await this.$supabase.from('file_links')
+          .select('*')
+          .eq('hash_administrative', this.fileCode).single()
+        if (error) { throw error }
         this.fileInfo.fileUUID = data.id
         const nameAndFormat = this.getNameAndFormat(data.file_name)
         this.fileInfo.fileName = nameAndFormat.name
@@ -133,6 +134,8 @@ export default {
         this.fileInfo.hashFile = data.file_hash
         this.fileInfo.hashAdministrative = data.hash_administrative
         this.fileInfo.hashPreview = data.hash_preview
+      } catch (error) {
+        this.$nuxt.$options.router.push('/error')
       }
     },
 

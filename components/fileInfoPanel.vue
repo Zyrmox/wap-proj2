@@ -5,7 +5,10 @@
       v-model="file.fileName"
       :disabled="disabled"
       type="text"
-      class="block p-4 w-full bg-gray-50 rounded-lg border sm:text-lg dark:placeholder-gray-400"
+      class="block p-4 w-full bg-gray-50 border-0 border-b-2
+      focus:border-green-500 focus:ring-0 focus:outline-none
+      sm:text-lg
+      dark:placeholder-gray-400"
     >
     <div class="flex flex-row">
       <div class="flex-col flex-auto">
