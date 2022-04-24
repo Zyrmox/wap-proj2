@@ -1,9 +1,9 @@
 <template>
   <box>
-    <div v-if="fileInfo === null" class="flex flex-col items-center space-y-2 w-full">
+    <div v-if="fileInfo === null" class="flex flex-col items-center w-full">
       Soubor úspěšně odstraněn
     </div>
-    <div v-else-if="fileInfo.fileUUID === ''" class="flex flex-col items-center space-y-2 w-full">
+    <div v-else-if="fileInfo.fileUUID === ''" class="flex flex-col items-center w-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-32 w-32 animate-spin text-green-500 mb-6"
@@ -15,7 +15,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
       </svg>
     </div>
-    <div v-else class="flex flex-col items-center space-y-2 w-full">
+    <div v-else class="flex flex-col items-center w-full">
       <file-info-panel :file="fileInfo" :disabled="!isEditing" />
 
       <div class="flex items-center w-1/4 my-3">
@@ -24,37 +24,80 @@
       <input-link-and-copy :label="'Public link'" :url="previewLink" />
 
       <input-link-and-copy :label="'Private link'" :url="administrativeLink" />
-
-      <div class="flex space-x-5">
+      <div class="flex justify-between items-center w-full mt-4">
         <button
-          v-if="isEditing"
-          class="inline-block px-6 py-2.5 bg-green-500 text-white rounded hover:bg-yellow-900"
-          type="button"
-          @click="extendBtnClicked"
-        >
-          Prodloužit o 7 dní
-        </button>
-        <button
-          class="inline-block px-6 py-2.5 bg-yellow-600 text-white rounded hover:bg-yellow-900"
-          type="button"
-          @click="editBtnClicked"
-        >
-          Upravit
-        </button>
-        <button
-          class="inline-block px-6 py-2.5 bg-gray-600 text-white rounded hover:bg-gray-900"
+          class="inline-flex items-center text-white bg-green-500 hover:bg-green-400 transition-colors duration-150 px-8 py-4 font-semibold rounded-lg"
           type="button"
           @click="startFileDownload"
         >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
           Stáhnout
         </button>
-        <button
-          class="inline-block px-6 py-2.5 bg-red-600 text-white rounded hover:bg-red-900"
-          type="button"
-          @click="deleteConform"
-        >
-          Smazat
-        </button>
+        <div class="inline-flex items-center space-x-2">
+          <button
+            v-if="isEditing"
+            class="inline-flex items-center text-white bg-green-500 hover:bg-green-400 transition-colors duration-150 px-8 py-4 font-semibold rounded-lg"
+            type="button"
+            @click="extendBtnClicked"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Prodloužit o 7 dní
+          </button>
+
+          <button
+            class="inline-flex items-center text-orange-400 border-orange-400 border bg-white hover:bg-orange-400 hover:text-white transition-colors duration-150 px-8 py-4 font-semibold rounded-lg"
+            type="button"
+            @click="editBtnClicked"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Upravit
+          </button>
+
+          <button
+            class="inline-flex items-center text-red-400 border-red-400 border bg-white hover:bg-red-400 hover:text-white transition-colors duration-150 px-8 py-4 font-semibold rounded-lg"
+            type="button"
+            @click="deleteConform"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Smazat
+          </button>
+        </div>
       </div>
     </div>
   </box>
@@ -100,11 +143,10 @@ export default {
     },
     extendBtnClicked () {
       if (this.isEditing) { // end editing
-        const oldDate = Date
-        const newDate = new Date()
-        newDate.setDate(today.getDate() + 1)
+        const oldDate = new Date(this.fileInfo.expiresAt)
+        const newDate = this.addDaysToDate(oldDate, 7)
         this.fileInfo.expiresAt = newDate
-        console.log(this.fileInfo.expiresAt)
+        this.updateExpiration()
       }
     },
 
