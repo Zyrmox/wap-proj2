@@ -76,7 +76,7 @@
                 v-model="expiryInput"
                 type="number"
                 min="1"
-                max="7"
+                max="14"
                 :class="[inputHasError('expiry') ? 'border-red-500' : 'border-gray-700', 'inline-flex items-center rounded-none pl-4 bg-gray-200 border-2 border-r-0 border-l-0 truncate flex-1 min-w-0 w-full text-sm border-gray-700']"
                 placeholder="Délka platnosti odkazu"
               >
@@ -132,20 +132,7 @@
           </div>
 
           <div class="mt-6 mb-2 w-full">
-            <div class="flex">
-              <span class="inline-flex items-center px-3 py-2 text-white bg-gray-700 rounded-l-lg border-2 border-r-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                Odkaz pro sdílení
-              </span>
-              <div class="inline-flex items-center rounded-none pl-4 bg-gray-200 border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                {{ previewLink }}
-              </div>
-              <button class="inline-flex items-center px-3 py-2 text-white font-medium bg-green-500 rounded-none rounded-r-lg border-2 border-l-0 border-green-500 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
-                </svg>
-                Kopírovat odkaz
-              </button>
-            </div>
+            <input-link-and-copy label="Odkaz pro sdílení" :url="administrativeLink" btn-text="Kopírovat odkaz" />
           </div>
 
           <div class="bg-gray-200 mt-6 px-4 py-4 sm:px-8 sm:py-6 rounded-lg w-full">
@@ -154,14 +141,16 @@
             </div>
             <div class="mb-2 w-full">
               <div class="flex">
-                <div class="inline-flex items-center rounded-l-lg pl-4 text-white bg-gray-500 border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <div class="inline-flex items-center rounded-l-lg pl-4 bg-white border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   {{ administrativeLink }}
                 </div>
                 <button class="inline-flex items-center px-3 py-2 text-white font-medium bg-gray-700 rounded-none rounded-r-lg border-2 border-l-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
-                  Spravovat soubor
+                  <NuxtLink :to="{ name: 'file-id', params: { id: this.record.hash_administrative } }">
+                    Spravovat soubor
+                  </NuxtLink>
                 </button>
               </div>
 
@@ -169,7 +158,7 @@
             </div>
           </div>
 
-          <button class="inline-flex items-center text-white bg-green-500 px-8 py-4 font-semibold rounded-lg mt-6" @click="resetUpload">
+          <button class="inline-flex items-center text-white bg-green-500 hover:bg-green-400 transition-colors duration-150 px-8 py-4 font-semibold rounded-lg mt-6" @click="resetUpload">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
               <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
             </svg>

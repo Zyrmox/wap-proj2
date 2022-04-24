@@ -49,6 +49,15 @@
         </button>
       </div>
     </div>
+    <message-bubble
+      v-for="mes in messages"
+      :id="mes.id"
+      :key="mes.id"
+      :type="mes.type"
+      :closeable="mes.closeable"
+      :msg="mes.msg"
+      class="mt-4 w-full"
+    />
   </box>
 </template>
 
@@ -78,6 +87,9 @@ export default {
     },
     administrativeLink () {
       return process.env.baseUrl + '/file/' + this.fileInfo.hashAdministrative
+    },
+    messages () {
+      return this.$store.state.messages.list
     }
   },
   created () {
