@@ -131,30 +131,31 @@
             Úspěšně nahrán soubor: {{ file.name }}
           </div>
 
-          <div class="mt-6 mb-2 w-full">
-            <input-link-and-copy label="Odkaz pro sdílení" :url="administrativeLink" btn-text="Kopírovat odkaz" />
-          </div>
-
           <div class="bg-gray-200 mt-6 px-4 py-4 sm:px-8 sm:py-6 rounded-lg w-full">
-            <div class="font-medium mb-2">
-              Odkaz pro správu souboru:
-            </div>
             <div class="mb-2 w-full">
-              <div class="flex">
-                <div class="inline-flex items-center rounded-l-lg pl-4 bg-white border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  {{ administrativeLink }}
-                </div>
-                <button class="inline-flex items-center px-3 py-2 text-white font-medium bg-gray-700 rounded-none rounded-r-lg border-2 border-l-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                  </svg>
-                  <NuxtLink :to="{ name: 'file-id', params: { id: this.record.hash_administrative } }">
-                    Spravovat soubor
-                  </NuxtLink>
-                </button>
+              <input-link-and-copy label="Odkaz pro sdílení" :url="previewLink" btn-text="Kopírovat odkaz" />
+            </div>
+            <div class="mt-6">
+              <div class="font-medium mb-2 text-sm">
+                Odkaz pro správu souboru:
               </div>
+              <div class="mb-2 w-full">
+                <div class="flex">
+                  <div class="inline-flex items-center rounded-l-lg pl-4 bg-white border-2 border-r-0 truncate focus:ring-blue-500 focus:border-blue-500 flex-1 min-w-0 w-full text-sm border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {{ administrativeLink }}
+                  </div>
+                  <button class="inline-flex items-center px-3 py-2 text-white font-medium bg-gray-700 rounded-none rounded-r-lg border-2 border-l-0 border-gray-700 dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                    </svg>
+                    <NuxtLink :to="{ name: 'file-id', params: { id: this.record.hash_administrative } }">
+                      Spravovat soubor
+                    </NuxtLink>
+                  </button>
+                </div>
 
-              <message-bubble id="administrative-link-warning" class="mt-2" type="warning" :closeable="false" msg="Pozor! Tento odkaz slouží pro správu nahraného souboru. Využívejte jej pouze vy a neodesílejte jej hromadně!" />
+                <message-bubble id="administrative-link-warning" class="mt-2" type="warning" :closeable="false" msg="Pozor! Tento odkaz slouží pro správu nahraného souboru. Využívejte jej pouze vy a neodesílejte jej hromadně!" />
+              </div>
             </div>
           </div>
 
@@ -272,10 +273,10 @@ export default {
           error: 'Pole musí být vyplněné'
         })
         failed = true
-      } else if (this.expiryInput && (this.expiryInput < 1 || this.expiryInput > 7)) {
+      } else if (this.expiryInput && (this.expiryInput < 1 || this.expiryInput > 14)) {
         this.validationErrors.push({
           name: 'expiry',
-          error: 'Povolená doba uložení souboru je v rozmezí od 1 do 7 dnů'
+          error: 'Povolená doba uložení souboru je v rozmezí od 1 dne do 14 dnů'
         })
         failed = true
       }
