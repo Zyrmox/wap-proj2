@@ -21,14 +21,12 @@
       <div class="flex items-center w-1/4 my-3">
         <div class="flex-grow h-1 bg-gray-400" />
       </div>
-
       <input-link-and-copy :label="'Public link'" :url="previewLink" />
 
       <input-link-and-copy v-if="editPremission" :label="'Private link'" :url="administrativeLink" />
 
       <div class="flex space-x-5">
         <button
-          v-if="editPremission"
           class="inline-block px-6 py-2.5 bg-yellow-600 text-white rounded hover:bg-yellow-900"
           type="button"
           @click="editBtnClicked"
@@ -43,7 +41,6 @@
           download
         </button>
         <button
-          v-if="editPremission"
           class="inline-block px-6 py-2.5 bg-red-600 text-white rounded hover:bg-red-900"
           type="button"
           @click="deleteConform"
@@ -52,23 +49,23 @@
         </button>
       </div>
     </div>
+    <message-bubble
+      v-for="mes in messages"
+      :id="mes.id"
+      :key="mes.id"
+      :type="mes.type"
+      :closeable="mes.closeable"
+      :msg="mes.msg"
+      class="mt-4 w-full"
+    />
   </box>
 </template>
 
 <script>
-import Box from '~/components/Box.vue'
-import FileInfoPanel from '~/components/fileInfoPanel.vue'
-import InputLinkAndCopy from '~/components/inputLinkAndCopy.vue'
 
 export default {
-  components: {
-    Box,
-    FileInfoPanel,
-    InputLinkAndCopy
-  },
   data () {
     return {
-      editPremission: true,
       isEditing: false,
       fileCode: this.$route.params.id,
       fileInfo: {
@@ -90,6 +87,9 @@ export default {
     },
     administrativeLink () {
       return process.env.baseUrl + '/file/' + this.fileInfo.hashAdministrative
+    },
+    messages () {
+      return this.$store.state.messages.list
     }
   },
   created () {
@@ -119,10 +119,11 @@ export default {
 
     // TODO: pro sekci downloads tady budu jen testovat jestli je to hash_preview
     async getFileInfo () {
-      const { data, error } = await this.$supabase.from('file_links')
-        .select('*')
-        .eq('hash_administrative', this.fileCode).single()
-      if (!error) {
+      try {
+        const { data, error } = await this.$supabase.from('file_links')
+          .select('*')
+          .eq('hash_administrative', this.fileCode).single()
+        if (error) { throw error }
         this.fileInfo.fileUUID = data.id
         const nameAndFormat = this.getNameAndFormat(data.file_name)
         this.fileInfo.fileName = nameAndFormat.name
@@ -133,6 +134,8 @@ export default {
         this.fileInfo.hashFile = data.file_hash
         this.fileInfo.hashAdministrative = data.hash_administrative
         this.fileInfo.hashPreview = data.hash_preview
+      } catch (error) {
+        this.$nuxt.$options.router.push('/error')
       }
     },
 

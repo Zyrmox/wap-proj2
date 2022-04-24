@@ -1,10 +1,13 @@
+const DEFAULT_EXPIRY_DAY_COUNT = 7
+
 export const state = () => ({
   file: null,
   record: null,
   uploading: false,
   stored: false,
   name: null,
-  email: null
+  email: null,
+  expiry: DEFAULT_EXPIRY_DAY_COUNT
 })
 
 export const mutations = {
@@ -30,6 +33,9 @@ export const mutations = {
   updateEmail (state, val) {
     state.email = val
   },
+  updateExpiry (state, val) {
+    state.expiry = val
+  },
   remove (state) {
     state.file = null
   },
@@ -40,6 +46,7 @@ export const mutations = {
     state.stored = false
     state.name = null
     state.email = null
+    state.expiry = DEFAULT_EXPIRY_DAY_COUNT
     this.commit('messages/clear')
   }
 }

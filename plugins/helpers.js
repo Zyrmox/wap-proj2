@@ -13,6 +13,9 @@ Vue.mixin({
         return true
       }
       return false
+    },
+    addDaysToDate (date, days) {
+      return this.$dateFns.addDays(date, days)
     }
   }
 })
