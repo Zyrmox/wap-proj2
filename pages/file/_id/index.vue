@@ -21,14 +21,12 @@
       <div class="flex items-center w-1/4 my-3">
         <div class="flex-grow h-1 bg-gray-400" />
       </div>
-
       <input-link-and-copy :label="'Public link'" :url="previewLink" />
 
       <input-link-and-copy v-if="editPremission" :label="'Private link'" :url="administrativeLink" />
 
       <div class="flex space-x-5">
         <button
-          v-if="editPremission"
           class="inline-block px-6 py-2.5 bg-yellow-600 text-white rounded hover:bg-yellow-900"
           type="button"
           @click="editBtnClicked"
@@ -43,7 +41,6 @@
           download
         </button>
         <button
-          v-if="editPremission"
           class="inline-block px-6 py-2.5 bg-red-600 text-white rounded hover:bg-red-900"
           type="button"
           @click="deleteConform"
@@ -56,19 +53,10 @@
 </template>
 
 <script>
-import Box from '~/components/Box.vue'
-import FileInfoPanel from '~/components/fileInfoPanel.vue'
-import InputLinkAndCopy from '~/components/inputLinkAndCopy.vue'
 
 export default {
-  components: {
-    Box,
-    FileInfoPanel,
-    InputLinkAndCopy
-  },
   data () {
     return {
-      editPremission: true,
       isEditing: false,
       fileCode: this.$route.params.id,
       fileInfo: {
