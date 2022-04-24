@@ -24,7 +24,7 @@
             <div class="flex-grow h-1 bg-gray-400" />
           </div>
           <div>
-            <input type="file" class="text-white bg-green-500 px-4 py-2 font-semibold" placeholder="Procházet soubory" @change="filePicked">
+            <input type="file" class="text-white bg-green-500 px-4 py-2 font-semibold rounded-lg" placeholder="Procházet soubory" @change="filePicked">
           </div>
         </div>
         <div v-else-if="fileUploaded && !stored" class="flex flex-col items-center">
