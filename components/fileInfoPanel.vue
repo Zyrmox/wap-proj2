@@ -54,7 +54,16 @@
 
 <script>
 export default {
-  props: ['file', 'disabled'],
+  props: {
+    file: {
+      required: true,
+      type: Object
+    },
+    disabled: {
+      required: true,
+      type: Boolean
+    }
+  },
   computed: {
     expiration () {
       return this.dateToDays(this.file.expiresAt)
