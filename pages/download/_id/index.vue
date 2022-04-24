@@ -24,7 +24,7 @@
           type="button"
           @click="startFileDownload"
         >
-          download
+          Stáhnout
         </button>
       </div>
     </div>
@@ -65,6 +65,7 @@ export default {
 
         this.fileInfo.createdAt = data.created_at
         this.fileInfo.modifiedAt = data.updated_at
+        this.fileInfo.expiresAt = data.expiry_at
         this.fileInfo.hashFile = data.file_hash
         this.fileInfo.hashAdministrative = data.hash_administrative
         this.fileInfo.hashPreview = data.hash_preview
@@ -91,7 +92,7 @@ export default {
         link.click()
         URL.revokeObjectURL(link.href)
       } catch (error) {
-        console.error(error)
+        window.console.error(error)
       }
     }
   }

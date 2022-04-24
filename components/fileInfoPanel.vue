@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full">
-    <label class="text-green-500 font-semibold text-2xl">File name</label>
+    <label class="text-green-500 font-semibold text-2xl">Název souboru</label>
     <input
       v-model="file.fileName"
       :disabled="disabled"
@@ -10,18 +10,18 @@
     <div class="flex flex-row">
       <div class="flex-col flex-auto">
         <div class="text-gray-400">
-          created: {{ formateDate(file.createdAt) }}
+          vytvořeno: {{ formateDate(file.createdAt) }}
         </div>
         <div class="text-gray-400">
-          modified: {{ formateDate(file.modifiedAt) }}
+          upraveno: {{ formateDate(file.modifiedAt) }}
         </div>
         <div class="text-gray-400">
-          expires:
+          expiruje za: {{ expiration }} dní
         </div>
       </div>
       <div class="flex-col flex-auto">
         <div class="text-gray-400">
-          format: {{ file.fileFormat }}
+          formát: {{ file.fileFormat }}
         </div>
       </div>
     </div>
@@ -31,9 +31,25 @@
 <script>
 export default {
   props: ['file', 'disabled'],
+  computed: {
+    expiration () {
+      return this.dateToDays(this.file.expiresAt)
+    }
+  },
+  created () {
+  },
   methods: {
     formateDate (date) {
-      return (date == null ? 'Never' : new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }))
+      return (date == null ? 'Nikdy' : new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }))
+    },
+    dateToDays (value) {
+      const date = new Date(value)
+      const today = new Date()
+
+      const differenceInTime = date.getTime() - today.getTime()
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24)
+
+      return Math.trunc(differenceInDays)
     }
   }
 }
