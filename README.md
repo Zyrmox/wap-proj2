@@ -1,5 +1,5 @@
 # Online file storage
-## BUT FIT - WAP Final project assignment
+## BUT FIT - WAP course final project
 ### Team project
 The goal of the project was to create a web application capable of storing user files and sharing access to these files with other people.
 ### Colaborators:
