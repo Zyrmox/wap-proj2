@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient('https://aomrbpbirewwgkhdbvvm.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvbXJicGJpcmV3d2draGRidnZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTA0NTgwMzAsImV4cCI6MTk2NjAzNDAzMH0.oxBVcGzYHknRmO7O53p5mfCh0A4Lf4Y5hViELuNQcOo')
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 let cron = require('node-cron')
 
 export default function() {
