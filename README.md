@@ -1,9 +1,13 @@
 # Online file storage
-## BUT FIT
-## Team project
+## BUT FIT - WAP Final project assignment
+### Team project
+The goal of the project was to create a web application capable of storing user files and sharing access to these files with other people.
 ### Colaborators:
 - Petr Vrtal
 - Arthur Nácar
+
+## Backend
+- [Supabase storage](https://supabase.com/)
 
 ## Build Setup
 
