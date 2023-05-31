@@ -6,6 +6,9 @@ The goal of the project was to create a web application capable of storing user 
 - Petr Vrtal
 - Arthur Nácar
 
+## Architecture
+Built on top of Nuxt framework (v 2.15)
+
 ## Backend
 - [Supabase storage](https://supabase.com/)
 
