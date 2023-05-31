@@ -1,6 +1,9 @@
-# wap-proj
-
-> Online file storage.
+# Online file storage
+## BUT FIT
+## Team project
+### Colaborators:
+- Petr Vrtal
+- Arthur Nácar
 
 ## Build Setup
 
